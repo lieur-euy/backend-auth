@@ -21,4 +21,8 @@ export class UserService {
   async save(user: User): Promise<User> {
     return this.userRepository.save(user);
   }
+  async updateRefreshToken(userId: number, refreshToken: string | null): Promise<void> {
+    await this.userRepository.update(userId, { refreshToken, lastRefreshTime: new Date() });
+  }
+  
 }

@@ -12,6 +12,12 @@ export class User {
   @Column()
   password: string;
 
+  @Column({ nullable: true })
+  refreshToken: string;
+
+  @Column({ nullable: true, type: 'timestamp' })
+  lastRefreshTime: Date | null; // Menyimpan waktu terakhir kali refresh token diperbarui
+
   @ManyToOne(() => Role, role => role.users)
   @JoinColumn({ name: 'role_id' })
   role: Role;

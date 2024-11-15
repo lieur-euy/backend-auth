@@ -1,19 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Role } from './role.entity';
+import { role } from '@prisma/client'; // Prisma Client menyediakan tipe otomatis untuk entitas
+import { PrismaService } from 'src/databases/prisma.service';
 
 @Injectable()
 export class RoleService {
-  constructor(
-    @InjectRepository(Role)
-    private roleRepository: Repository<Role>,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
-  async findRoleWithPermissions(roleId: number): Promise<Role | undefined> {
-    return this.roleRepository.findOne({
+  async findRoleWithPermissions(roleId: number): Promise<role | null> {
+    return this.prisma.role.findUnique({
       where: { id: roleId },
-      relations: ['permissions'],
+      include: { permissions: true }, // Mengikutkan relasi permissions
     });
   }
 }

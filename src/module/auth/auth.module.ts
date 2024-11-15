@@ -7,6 +7,7 @@ import { PassportModule } from '@nestjs/passport';
 import { UserModule } from '../user/user.module';
 import { RoleModule } from '../roles/role.module';
 import { JwtStrategy } from './jwt.strategy';
+import { PrismaModule } from 'src/databases/prisma.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { JwtStrategy } from './jwt.strategy';
       secret: 'YOUR_SECRET_KEY',
       signOptions: { expiresIn: '1d' },
     }),
+    PrismaModule,
     UserModule,
     RoleModule,
   ],

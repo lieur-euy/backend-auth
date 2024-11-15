@@ -1,16 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Permission } from './permission.entity';
+import { permission } from '@prisma/client'; // Prisma otomatis menghasilkan tipe untuk entitas di dalam Prisma Client
+import { PrismaService } from 'src/databases/prisma.service';
 
 @Injectable()
 export class PermissionService {
-  constructor(
-    @InjectRepository(Permission)
-    private permissionRepository: Repository<Permission>,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
-  async findAll(): Promise<Permission[]> {
-    return this.permissionRepository.find();
+  async findAll(): Promise<permission[]> {
+    return this.prisma.permission.findMany(); // Mengambil semua entitas permission
   }
 }
